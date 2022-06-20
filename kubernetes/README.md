@@ -134,3 +134,34 @@ You can install a Pod network add-on, for instance Flannel, with the following c
 ```shell
 kubectl apply -f flannel.yaml
 ```
+
+
+After all of these steps are finished successfully, you should see all Kubernetes components are UP and RUNNING:
+```shell
+[test@loongson1 kubeadm]$ kubectl get po -n kube-system
+NAMESPACE     NAME                                READY   STATUS    RESTARTS   AGE
+kube-system   coredns-7cb7cc6b47-fqksw            1/1     Running   0          2m30s
+kube-system   coredns-7cb7cc6b47-kmrmp            1/1     Running   0          2m30s
+kube-system   etcd-loongson1                      1/1     Running   0          2m36s
+kube-system   kube-apiserver-loongson1            1/1     Running   0          2m36s
+kube-system   kube-controller-manager-loongson1   1/1     Running   0          2m36s
+kube-system   kube-flannel-ds-bc9zg               1/1     Running   0          29s
+kube-system   kube-proxy-npvx8                    1/1     Running   0          2m30s
+kube-system   kube-scheduler-loongson1            1/1     Running   0          2m36s
+```
+
+## Control plane node isolation
+By default, your cluster will not schedule Pods on the control-plane node for security reasons. If you want to be able to schedule Pods on the control-plane node, for example for a single-machine Kubernetes cluster for development, run:
+```shell
+kubectl taint nodes --all node-role.kubernetes.io/master-
+```
+
+
+With output looking something like:
+```shell
+node "loongson1" untainted
+taint "node-role.kubernetes.io/master:" not found
+taint "node-role.kubernetes.io/master:" not found
+```
+
+This will remove the node-role.kubernetes.io/master taint from any nodes that have it, including the control-plane node, meaning that the scheduler will then be able to schedule Pods everywhere.
