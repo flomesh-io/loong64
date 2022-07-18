@@ -132,7 +132,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ## Installing a Pod network add-on(Flannel)
 You can install a Pod network add-on, for instance Flannel, with the following command on the control-plane node or a node that has the kubeconfig credentials:
 ```shell
-kubectl apply -f https://github.com/flomesh-io/loong64/blob/main/kubernetes/flannel.yaml
+kubectl apply -f https://raw.githubusercontent.com/flomesh-io/loong64/main/kubernetes/flannel.yaml
 ```
 
 
